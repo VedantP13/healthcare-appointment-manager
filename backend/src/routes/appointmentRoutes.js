@@ -1,10 +1,15 @@
 const express = require('express');
-const { bookAppointment } = require('../controllers/appointmentController');
-const { authenticate, authorize } = require('../middleware/authMiddleware');
-
 const router = express.Router();
 
-// Only logged-in users with the 'patient' role can book
-router.post('/book', authenticate, authorize(['patient']), bookAppointment);
+// 1. Import ALL THREE functions from the controller
+const { bookAppointment, getDoctorAppointments, getDoctors } = require('../controllers/appointmentController');
+
+// 2. Import the middleware
+const authMiddleware = require('../middleware/authMiddleware');
+
+// 3. Define the routes
+router.post('/book', authMiddleware, bookAppointment);
+router.get('/doctor', authMiddleware, getDoctorAppointments);
+router.get('/doctors-list', authMiddleware, getDoctors);
 
 module.exports = router;
