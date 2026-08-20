@@ -9,6 +9,11 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
+const authRoutes = require('./routes/authRoutes');
+const appointmentRoutes = require('./routes/appointmentRoutes');
+app.use('/api/auth', authRoutes);
+app.use('/api/appointments', appointmentRoutes);
+
 app.get('/health', (req, res) => {
     res.status(200).json({ status: 'ok' });
 });
